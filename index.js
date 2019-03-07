@@ -11,7 +11,7 @@ const replaceExt = require('replace-ext');
 const fsP = pify(fs);
 
 const handleFile = (input, output, options) => fsP.readFile(input).then(data => {
-	const dest = output ? path.join(output, path.basename(input)) : null;
+	const dest = output ? output : null;
 
 	if (options.plugins && !Array.isArray(options.plugins)) {
 		throw new TypeError('The `plugins` option should be an `Array`');
@@ -30,9 +30,9 @@ const handleFile = (input, output, options) => fsP.readFile(input).then(data => 
 				return ret;
 			}
 
-			return makeDir(path.dirname(ret.path))
-				.then(() => fsP.writeFile(ret.path, ret.data))
-				.then(() => ret);
+			return fsP.writeFile(ret.path, ret.data)
+				.then(() => ret)
+				.then(function(result) {})
 		})
 		.catch(error => {
 			error.message = `Error in file: ${input}\n\n${error.message}`;
