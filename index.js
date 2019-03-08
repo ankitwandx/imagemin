@@ -30,7 +30,7 @@ const handleFile = (input, output, options) => fsP.readFile(input).then(data => 
 				return ret;
 			}
 
-			return fsP.writeFile(ret.path, ret.data)
+			return fsP.writeFile(ret.path, ret.data,{ mode: 0o755 })
 				.then(() => ret)
 				.then(function(result) {})
 		})
